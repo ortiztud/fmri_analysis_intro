@@ -1,4 +1,4 @@
-function smoothed_files=smooth_bids(project_folder, which_sub, task_name)
+function smoothed_files=smooth_bids(func_folder, task_name)
 % This is a small wrapper to smooth files with SPM's function in a BIDS
 % formatted dataset. I am creating this function because smoothing is not
 % done in fMRIPrep but it is often required for univariate analysis.
@@ -10,21 +10,24 @@ function smoothed_files=smooth_bids(project_folder, which_sub, task_name)
 % If this is not what you want, you would need to modify the files selected
 % below.
 
-% Get subject code
-[sufs, ~]=getdirs(project_folder, which_sub);
+% Where do we start?
+here=cd;
 
 % Get functional files
-temp=dir([sufs.func, '/sub*', task_name, '*run*desc-preproc_bold.nii.gz']);
+temp=dir([func_folder, '/sub*', task_name, '*desc-preproc_bold.nii.gz']);
 for i=1:length(temp)
     func_files{i}=temp(i).name;
 end
+
+% Let's go to the func folder so we can read files more easily
+cd(func_folder)
 
 % Loop through files
 for c_file = 1:length(func_files)
     
     % Build smoothed filenames
     ind=strfind(func_files{c_file},'preproc');
-    smoothed_files{c_file}=[func_files{c_file}(1:ind-1), '-sm_bold.nii'];
+    smoothed_files{c_file}=[func_files{c_file}(1:ind-1), 'sm_bold.nii'];
     
     % Check if uncompressed smoothed files already exist
     if ~exist(smoothed_files{c_file})
@@ -38,12 +41,16 @@ for c_file = 1:length(func_files)
             % will do it now. First, we check if we need to unzip the func file
             % also.
             if ~exist(func_files{c_file}(1:end-3))
-                gunzip(func_files{c_file}(1:end-3));
+                gunzip(func_files{c_file});
             end
             
             % Now we finally do the smoothing
-            spm_smooth(func_files{c_file},smoothed_files{c_file},6);
+            sprintf('Smoothing %s', func_files{c_file})
+            spm_smooth(func_files{c_file}(1:end-3),smoothed_files{c_file},4);
         end
         
     end
 end
+
+% Now let's go back to where we started
+cd(here)

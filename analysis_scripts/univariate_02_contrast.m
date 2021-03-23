@@ -1,41 +1,38 @@
-% Univariate contrast from SPM.mat
-% Author: Ortiz-Tudela (Goethe Uni)
+% This script takes in the SPM.mat file from a GLM estimation done in SPM
+% and computes contrast maps.
+%
+% This script has been created for the fMRI analysis seminar on PsyMSc4 at
+% the Goethe University.
+%
+% Author: Ortiz-Tudela (Goethe Univerity)
+% Created: 09.01.2021
+% Last update: 12-01.2021
 
-function contrast_SPM_episem(which_sub)
 
-%% Add necessary paths
-% Main folder
-if strcmpi(getenv('USERNAME'),'javier')
-    main_folder= '/home/javier/pepe/2_Analysis_Folder/PIVOTAL/FeedBES';
+function univariate_02_contrast(project_folder, which_sub, contrast_names, weigth_vec,varargin)
+
+% Session label
+if ~isempty(varargin)
+    ses_label = varargin{1};
 else
-    main_folder= '/home/ortiz/DATA/2_Analysis_Folder/PIVOTAL/FeedBES';
+    ses_label = '';
 end
 
-%% start looping over subjects
-for cSub = which_sub
-    
-    % Get folder structure
-    [sufs,sub_code]=feedBES_getdir(main_folder, cSub);
-    
-    % Get regressor's names
-    weigth_vec=[1,-1];
-    
-    %-----------------------------------------------------------------------
-    matlabbatch{1}.spm.stats.con.spmmat = {[sufs.outputs, 'episem/SPM.mat']};
-    matlabbatch{1}.spm.stats.con.consess{1}.tcon.name = 'episodic';
-    matlabbatch{1}.spm.stats.con.consess{1}.tcon.weights = [1 0];
-    matlabbatch{1}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-    matlabbatch{1}.spm.stats.con.consess{2}.tcon.name = 'semantic';
-    matlabbatch{1}.spm.stats.con.consess{2}.tcon.weights = [0 1];
-    matlabbatch{1}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-    matlabbatch{1}.spm.stats.con.consess{3}.tcon.name = 'epi>sem';
-    matlabbatch{1}.spm.stats.con.consess{3}.tcon.weights = weigth_vec;
-    matlabbatch{1}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-    matlabbatch{1}.spm.stats.con.consess{4}.tcon.name = 'sem>epi';
-    matlabbatch{1}.spm.stats.con.consess{4}.tcon.weights = weigth_vec*-1;
-    matlabbatch{1}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
-    matlabbatch{1}.spm.stats.con.delete = 0;
-    
-    spm_jobman('run', matlabbatch);
-    clear matlabbatch;
+% Get folder structure
+sufs=getdirs(project_folder, which_sub, ses_label);
+
+% How many contrast?
+n_contrast = numel(contrast_names);
+%-----------------------------------------------------------------------
+matlabbatch{1}.spm.stats.con.spmmat = {[sufs.univ, 'betas/SPM.mat']};
+for c_contrast = 1:n_contrast
+    matlabbatch{1}.spm.stats.con.consess{c_contrast}.tcon.name = contrast_names{c_contrast};
+    matlabbatch{1}.spm.stats.con.consess{c_contrast}.tcon.weights = weigth_vec{c_contrast};
+    matlabbatch{1}.spm.stats.con.consess{c_contrast}.tcon.sessrep = 'none';
+end
+matlabbatch{1}.spm.stats.con.delete = 0;
+
+%% And run!
+spm_jobman('run', matlabbatch);
+clear matlabbatch;
 end

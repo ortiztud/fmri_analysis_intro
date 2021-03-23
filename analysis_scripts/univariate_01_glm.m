@@ -9,11 +9,19 @@
 %
 % Author: Ortiz-Tudela (Goethe Univerity)
 % Created: 09.01.2021
+% Last update: 12-01.2021
 
-function univariate_01_glm(project_folder, which_sub, task_name, compress)
+function univariate_01_glm(project_folder, which_sub, task_name, compress,varargin)
+
+% Session label
+if ~isempty(varargin)
+    ses_label = varargin{1};
+else
+    ses_label = '';
+end
 
 % Get folder structure
-sufs=getdirs(project_folder, which_sub);
+[sufs, sub_code]=getdirs(project_folder, which_sub, ses_label);
 
 % Echo
 fprintf('Starting participant %d',which_sub)
@@ -23,14 +31,16 @@ out_folder=[sufs.univ, '/betas'];
 if ~exist(out_folder);mkdir(out_folder);end
 
 % Get how many runs are available
-temp=dir([sufs.univ, '/sub*', task_name, '*run*events.mat']);
+temp=dir([sufs.univ, '/sub*', task_name, '*events.mat']);
+temp2=dir([sufs.func, 'sub*', task_name, '*_SPM.txt']);
 for i=1:length(temp)
     ev_files{i}=temp(i).name;
+    conf_files{i}=temp2(i).name;
 end
 n_runs=size(ev_files,2);
 
 % Get filenames
-func_files=smooth_bids(project_folder, which_sub, task_name);
+func_files=smooth_bids(sufs.func, task_name);
 
 %% Fun beggins
 matlabbatch{1}.spm.stats.fmri_spec.dir = {out_folder}; % Output folder
@@ -44,12 +54,16 @@ for c_run=1:n_runs
     
     % These are all the fields that SPM needs for a given run. Nothing
     % needs to be changed here.
-    filter = ['^', sub_code,  '.*', task_name, '.*_run-', num2str(c_run), 'sm_bold.nii$'] ;
-    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).scans = cellstr(spm_select('FPList',[sufs.brain, 'ses-01/func/'],filter));
+    if n_runs>1
+        filter = ['^', sub_code,  '.*', task_name, '.*_run-', num2str(c_run), '.*sm_bold.nii$'] ;
+    else
+        filter = ['^', sub_code,  '.*', task_name, '.*sm_bold.nii$'] ;
+    end
+    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).scans = cellstr(spm_select('FPList',sufs.func,filter));
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi = {ev_files{c_run}};
+    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi = {[sufs.univ, ev_files{c_run}]};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).regress = struct('name', {}, 'val', {});
-    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {''};
+    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {[sufs.func,conf_files{c_run}]};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).hpf = 128;
     
 end
@@ -60,7 +74,7 @@ matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
 matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
 matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
 matlabbatch{1}.spm.stats.fmri_spec.mthresh = 0.8;
-matlabbatch{1}.spm.stats.fmri_spec.mask = {[project_folder, 'tpl-MNI152NLin2009cAsym_label-GM_bin.nii']};
+matlabbatch{1}.spm.stats.fmri_spec.mask = {[project_folder, '/tpl-MNI152NLin2009cAsym_label-GM_bin.nii']};
 matlabbatch{1}.spm.stats.fmri_spec.cvi = 'AR(1)';
 
 %% Model estimation
@@ -75,7 +89,7 @@ clear matlabbatch;
 % Clean up if requested
 if compress
     for c_run=1:n_runs
-        gzip(func_files{crun});
+        gzip([sufs.func, func_files{c_run}]);
     end
 end
 end

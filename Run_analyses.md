@@ -15,5 +15,5 @@
 7. Create confound files for each subject.
 8. Run the GLM for each subject (it takes a while).
 9. - (for process-specific) a. Run the loop through subjects to create the contrast file \
-           b.Run the group analysis for ech contrast. \
+           b. Run the group analysis for ech contrast. 
    - (for content-specific) Run retinotopy. 

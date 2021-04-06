@@ -27,7 +27,11 @@ output <- cbind(moco, csf, wm, global, cos1, cos2)
 output <- format(output, scientific = F)
 
 # Write output info to txt file
-output_name <- strsplit(func_file, "timeseries.tsv")
+if("timeseries.tsv" %in% func_file){
+  output_name <- strsplit(func_file, "timeseries.tsv")  
+} else{
+  output_name <- strsplit(func_file, "regressors.tsv")
+}
 output_name <- paste(output_name[1], "SPM.txt", sep="")
 write.table(output, col.names=F,row.names=F,output_name,quote = FALSE)
   

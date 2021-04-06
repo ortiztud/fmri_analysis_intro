@@ -3,6 +3,8 @@
 % json file will be treated as a condition.
 % CAUTION: This might not always be what the GLM requires since you might
 % want to collapse several events into single regressors.
+% Also, if you want to specify particular events (without collapsing) you
+% can pass a cell array with the event names after the session label.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
@@ -15,6 +17,7 @@ function univariate_00_create_condFile(project_folder, which_sub, task_name, var
 % Session label
 if ~isempty(varargin)
     ses_label = varargin{1};
+    cond_names = varargin{2};
 else
     ses_label = '';
 end
@@ -35,24 +38,30 @@ for cRun = 1:n_runs
     % Load event files
     ev = read_tsv([sufs.events, ev_files{cRun}]);
     
-    % Get conditions
+    % Get available conditions
     try
-        conditions = unique(ev.trial_type);
+        avail_conditions = unique(ev.trial_type);
     catch
         ev.Properties.VariableNames{'condition'}='trial_type';
-        conditions = unique(ev.trial_type);
+        avail_conditions = unique(ev.trial_type);
     end
-    n_cond = length(conditions);
+    
+    % Check if requested conditions are available
+    if mean(ismember(cond_names, avail_conditions)) ~= 1
+        avail_conditions
+        error('Requested conditions are not available. Above this error you can see a list all available conditions')
+    end
+    n_cond = length(cond_names);
     
     % Loop over conditions / trial types
     for cType = 1:n_cond
-        % Get indices for the current condition
-        ind=strcmpi(ev.trial_type,conditions{cType});
+        % Get indices for the current condition for each experiment
+        ind=strcmpi(ev.trial_type,cond_names{cType});
 %          ind=strcmpi(ev.trial_type,conditions{cType}) &
 %          strcmpi(ev.correct, 'Y'); % For process-specific
         
         % Build SPM structure
-        names{cType}=conditions{cType};
+        names{cType}=cond_names{cType};
         onsets{cType}=ev.onset(ind);
         durations{cType}=ev.duration(ind);
         

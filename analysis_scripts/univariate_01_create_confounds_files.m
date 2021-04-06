@@ -7,7 +7,7 @@
 % Author: Ortiz-Tudela (Goethe Univerity)
 % Created: 17.03.2021
 
-function univariate_01_create_confounds_file(project_folder, which_sub, task_name, varargin)
+function univariate_01_create_confounds_files(project_folder, which_sub, task_name, varargin)
 
 % Session label
 if ~isempty(varargin)
@@ -21,6 +21,9 @@ sufs=getdirs(project_folder, which_sub, ses_label);
 
 % Get how many runs are available
 temp=dir([sufs.func, 'sub*', task_name, '*timeseries.tsv']);
+if isempty(temp) % This is here to handle different between fmriprep's versions
+    temp=dir([sufs.func, 'sub*', task_name, '*regressors.tsv']);
+end
 for i=1:length(temp)
     conf_files{i}=temp(i).name;
 end

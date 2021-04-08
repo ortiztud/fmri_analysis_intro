@@ -63,8 +63,8 @@ for c_run=1:4%n_runs
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi = {[sufs.univ, ev_files{c_run}]};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).regress = struct('name', {}, 'val', {});
-%     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {[sufs.func,conf_files{c_run}]};
-    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {['']};
+    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {[sufs.func,conf_files{c_run}]};
+%     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {['']};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).hpf = 128;
     
 end

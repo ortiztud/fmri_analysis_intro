@@ -2,8 +2,7 @@
 
 ## Add relevant folders to Matlab's path
 1. Go to ` ~/fmri_analysis_intro/_functions/` and open the `init.m` matlab file
-2. Set the `% Path to the seminar repository` to match the location of the `_functions` foler in your PC
-3. Set the `% Path to SPM12` to match the location of the `spm12` foler in your PC
+2. Set the `% Path to SPM12` to match the location of the `spm12` foler in your PC
 
 ## Run univariate analysis wrapper on your data
 1. Go to the `~/fmri_analysis_intro/analysis_scripts/` folder.

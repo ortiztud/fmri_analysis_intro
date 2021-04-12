@@ -12,12 +12,14 @@
 % Author: Ortiz-Tudela (Goethe Univerity)
 % Created: 09.01.2021
 
-function univariate_00_create_condFile(project_folder, which_sub, task_name, varargin)
+function univariate_00_create_cond_files(project_folder, which_sub, task_name, varargin)
 
 % Session label
 if ~isempty(varargin)
     ses_label = varargin{1};
-    cond_names = varargin{2};
+    if size(varargin,2)>1
+        cond_names = varargin{2};
+    end
 else
     ses_label = '';
 end
@@ -47,9 +49,14 @@ for cRun = 1:n_runs
     end
     
     % Check if requested conditions are available
-    if mean(ismember(cond_names, avail_conditions)) ~= 1
-        avail_conditions
-        error('Requested conditions are not available. Above this error you can see a list all available conditions')
+    if exist('cond_names', 'var')
+        if mean(ismember(cond_names, avail_conditions)) ~= 1
+            avail_conditions
+            error('Requested conditions are not available. Above this error you can see a list all available conditions')
+        end
+    else
+        sprintf('No conditions were specified. Using all conditions available in event files.')
+        cond_names = avail_conditions;
     end
     n_cond = length(cond_names);
     
@@ -57,8 +64,6 @@ for cRun = 1:n_runs
     for cType = 1:n_cond
         % Get indices for the current condition for each experiment
         ind=strcmpi(ev.trial_type,cond_names{cType});
-%          ind=strcmpi(ev.trial_type,conditions{cType}) &
-%          strcmpi(ev.correct, 'Y'); % For process-specific
         
         % Build SPM structure
         names{cType}=cond_names{cType};

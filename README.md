@@ -1,4 +1,4 @@
-# PsyMsc4: Introduction to fMRI: methods and analysis.
+# PsyMsc4. Introduction to fMRI: methods and analysis.
 
 
 This is a hands-on workshop on fMRI analysis for the PsyMSc4 at the Goethe University. The workshops will cover **which** are the necessary and common steps when conducting fMRI research and **how** to run them with MATLAB's SPM. The core Philosophy of the workshop is that one of the main skills that a cognitive neuroscientist should have is the ability to judge what **can** and what **cannot** be done with fMRI experiments from a conceptual level. In order to acquire such a skill, one needs to *understand* fMRI research , i.e., to know the basics of the technique itself and the logic behind the most common analysis.

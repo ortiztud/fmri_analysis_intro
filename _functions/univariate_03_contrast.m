@@ -1,15 +1,27 @@
-% This script takes in the SPM.mat file from a GLM estimation done in SPM
+% univariate_03_contrast(project_folder, which_sub, contrast_names, weigth_vec,varargin)
+% This function reads in the SPM.mat file from a GLM estimation done in SPM
 % and computes contrast maps.
+%
+% Usage:
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - contrast_names: cell array containing the names of the contrasts to 
+%    be run.
+%    - contrast_weights: cell array containing the weights of the contrast
+%    to be run. NOTE: These weights should match the order of the names in
+%    contrast_names.
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
 %
-% Author: Ortiz-Tudela (Goethe Univerity)
+% Author: Ortiz-Tudela (Goethe University)
 % Created: 09.01.2021
-% Last update: 12-01.2021
+% Last update: 14.04.2021
 
-
-function univariate_02_contrast(project_folder, which_sub, contrast_names, weigth_vec,varargin)
+function univariate_03_contrast(project_folder, which_sub, contrast_names, weigth_vec,varargin)
 
 % Session label
 if ~isempty(varargin)

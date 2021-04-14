@@ -1,25 +1,25 @@
-function [sufs, sub_code]=getdirs(main_folder, which_sub, varargin)
-%% Get folder structure for a given participant
+% function [sufs, sub_code]=getdirs(main_folder, which_sub, varargin)
+% Gets folder structure for a given participant.s
 % A BIDS convention is assumed and the sufs variable here merely provides a
 % handle for easier navigation through folders. It also outputs the
 % participant code as a string to be used outside of this script.
+% Usage: 
+%    - main_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
+%
+% Author: Ortiz-Tudela (Goethe University)
+% Created: 01.02.2020
+% Last update: 14.04.2021
 
+function [sufs, sub_code]=getdirs(main_folder, which_sub, varargin)
 %% Folder names
 sufs.BIDS = '/BIDS/';
 sufs.preproc = '/preproc_data/fmriprep/';
 sufs.outputs = '/outputs/';
 sufs.brain = '/preproc_data/fmriprep/';
-% sufs.beh = '/task_outputs/';
-% sufs.mask = '/masks/';
-% sufs.retMap = '/BV_analyses/';
-% sufs.spm = '/spm_analyses/';
-% sufs.eyemov = '/eye_movements_analyses/';
-% sufs.hc = '/hc_highres/';
-% sufs.figures = '/figures/';
-% sufs.day1 = '/day1_outputs/';
-% sufs.post = '/postscan_outputs/';
-% sufs.dec_corr = '/dec_val_corr/';
-
 
 %% Sub code
 if which_sub<10
@@ -44,45 +44,9 @@ sufs.func=[sufs.preproc,sess_label, '/func/'];
 sufs.outputs=[main_folder,sufs.outputs, sub_code,'/'];
 sufs.univ=[sufs.outputs, '/univ/'];
 sufs.functions = [main_folder, '/../fmri_analysis_intro/_functions/'];
-% sufs.BIDS=[main_folder,sufs.BIDS, sub_code,'/'];
-% sufs.beh=[main_folder,sufs.beh, sub_code,'/'];
-% sufs.brain=[main_folder,sufs.brain, sub_code,'/'];
-% sufs.mask=[main_folder,sufs.mask, sub_code,'/'];
-% sufs.retMap=[main_folder,sufs.retMap, sub_code,'/'];
-% sufs.spm=[main_folder,sufs.spm, sub_code,'/'];
-% sufs.eyemov=[main_folder,sufs.eyemov, sub_code,'/'];
-% sufs.hc=[main_folder,sufs.hc, sub_code,'/'];
-% sufs.figures=[main_folder,sufs.figures, sub_code,'/'];
-% sufs.day1=[main_folder,sufs.day1, sub_code,'/'];
-% sufs.post=[main_folder,sufs.post, sub_code,'/'];
-% sufs.main=main_folder;
-% sufs.funct=[main_folder, '/analysis_scripts/clean/_functions/'];
-% sufs.ppi=[sufs.outputs, 'PPI_results/'];
-% sufs.gppi=[sufs.outputs, 'gPPI/'];
-% sufs.connect=[sufs.outputs, 'connect/'];
-% sufs.bsc = [sufs.outputs,'/beta_series_corr/'];
-% sufs.dec_corr = [sufs.outputs,'dec_val_corr/'];
 
 %% Create folders if they don't already exist
 if ~exist(sufs.outputs);mkdir(sufs.outputs);end
 if ~exist(sufs.univ);mkdir(sufs.univ);end
-% if ~exist(sufs.beh);mkdir(sufs.beh);end
-% if ~exist(sufs.brain);mkdir(sufs.brain);end
-% if ~exist(sufs.mask);mkdir(sufs.mask);end
-% if ~exist(sufs.retMap);mkdir(sufs.retMap);end
-% if ~exist(sufs.spm);mkdir(sufs.spm);end
-% if ~exist(sufs.eyemov);mkdir(sufs.eyemov);end
-% if ~exist(sufs.hc);mkdir(sufs.hc);end
-
-
-% if ~exist(sufs.figures);mkdir(sufs.figures);end
-% if ~exist(sufs.ppi);mkdir(sufs.ppi);end
-% if ~exist(sufs.gppi);mkdir(sufs.gppi);end
-% if ~exist(sufs.connect);mkdir(sufs.connect);end
-% if ~exist(sufs.bsc);mkdir(sufs.bsc);end
-% if ~exist(sufs.day1);mkdir(sufs.day1);end
-% if ~exist(sufs.post);mkdir(sufs.post);end
-% if ~exist(sufs.dec_corr);mkdir(sufs.dec_corr);end
-
 
 end

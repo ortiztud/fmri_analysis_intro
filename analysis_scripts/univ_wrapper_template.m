@@ -12,12 +12,12 @@ subjects = [];
 % univariate_00_create_cond_files(project_folder, subject, task)
 % Create condition files
 for c_sub = subjects
-    univariate_00_create_cond_files(project_folder, c_sub, 'stroop')
+    univariate_00_create_cond_files(project_folder, c_sub, 'XXXXXXX')
 end
 
 % Create confound files
 for c_sub = subjects
-    univariate_01_create_confounds_files(project_folder, c_sub, 'stroop')
+    univariate_01_create_confounds_files(project_folder, c_sub, 'XXXXX')
 end
 
 % Run GLM

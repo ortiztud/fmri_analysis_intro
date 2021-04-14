@@ -1,14 +1,29 @@
+% univariate_04_group_level(project_folder, which_sub, contrast_number,contrast_name, varargin)
 % This script performs the group level analysis of single subject contrast
 % maps.
+%
+% Usage:
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - contrast_number: numeric label assigned by SPM when running the
+%    contrast. This number reflects the order on which the contrasts were
+%    run and accumulates even if the same contrasts are run multiple times. 
+%    This is a bit annoying a very error prone, so make sure the number
+%    specified here matches exactly the contrast that you want to look at.
+%    - contrast_names: cell array containing the names of the contrasts to 
+%    be run.
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
 %
-% Author: Ortiz-Tudela (Goethe Univerity)
+% Author: Ortiz-Tudela (Goethe University)
 % Created: 12.01.2021
 % Last update: 17.03.2021
 
-function univariate_03_group_level(project_folder, which_sub, contrast_number,contrast_name, varargin)
+function univariate_04_group_level(project_folder, which_sub, contrast_number,contrast_name, varargin)
 
 % Session label
 if ~isempty(varargin)

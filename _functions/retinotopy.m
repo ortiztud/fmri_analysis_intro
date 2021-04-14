@@ -1,9 +1,20 @@
+% retinotopy(project_folder, which_sub, varargin)
 % This script computes retinotopy for a given subject. It takes in the beta
 % estimates from a GLM and codes brain voxels as a function of their
 % preferred regressor/condition/eccentricity.
-
+% Usage:
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
+%
+% This script has been created for the fMRI analysis seminar on PsyMSc4 at
+% the Goethe University.
+%
 % Author: Ortiz-Tudela (Goethe Univerity)
 % Created: 17.03.2021
+% Last update: 12.01.2021
 
 function retinotopy(project_folder, which_sub, varargin)
 

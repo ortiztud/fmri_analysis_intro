@@ -1,14 +1,26 @@
-function smoothed_files=smooth_bids(func_folder, task_name)
+% function smoothed_files=smooth_bids(func_folder, task_name)
 % This is a small wrapper to smooth files with SPM's function in a BIDS
 % formatted dataset. I am creating this function because smoothing is not
 % done in fMRIPrep but it is often required for univariate analysis.
-% Since SPM cannot hangle compressed nifti files but BIDS has them, the
+% Since SPM cannot handle compressed nifti files but BIDS requires them,
 % files are decompressed, smoothed and compressed back again.
-
+% The script will  assume that all your files follow BIDS convention. To 
+% include changes in the way paths are hanldled, see getdirs.m.
+%
+% Usage: 
+%    - func_folder: path to where the functional files are
+%    - task_name: task label of the files to be smoothed
+%
 % CAUTION: This script will smooth **ALL** functional files for the
 % specified task inside the specified subject's BIDS directory.
 % If this is not what you want, you would need to modify the files selected
 % below.
+%
+% Author: Ortiz-Tudela (Goethe University)
+% Created: 01.02.2020
+% Last update: 14.04.2021
+
+function smoothed_files=smooth_bids(func_folder, task_name)
 
 % Where do we start?
 here=cd;
@@ -37,9 +49,9 @@ for c_file = 1:length(func_files)
             gunzip([smoothed_files{c_file}, '.gz']);
             
         else
-            % If we are here it means that smoothing was not done previously. We
-            % will do it now. First, we check if we need to unzip the func file
-            % also.
+            % If we are here it means that smoothing was not done previously.
+            % We will do it now. First, we check if we need to unzip the 
+            % func file also.
             if ~exist(func_files{c_file}(1:end-3))
                 gunzip(func_files{c_file});
             end

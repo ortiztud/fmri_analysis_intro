@@ -1,17 +1,34 @@
-% This script takes in the condition files created with
-% univariate_00_create_condFile, creates a SPM.mat and computes the GLM. In
-% SPM's terms: it specifies the model and estimates it.
+% univariate_02_glm(project_folder, which_sub, task_name, compress,varargin)
+% This function reads in the condition files in SPM format (see
+% univariate_00_create_condFile.m), confund files in .txt format (see 
+% univariate_01_create_confounds_files.m), applies spatial smoothing, 
+% creates a model with task and nuisance regressors, saves it in a SPM.mat,
+% and computes the GLM. In SPM's terms: it specifies the model and estimates it.
 %
-% If compress == 1 then .nii files will be compressed at the end.
+% The script will assume that all your files follow BIDS convention. To 
+% include changes in the way paths are hanldled, see getdirs.m.
+%
+% Usage:
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - task_name: task label for which condition files will get generated.
+%    NOTE that this label *must* be identical to the one used for naming
+%    the files.
+%    - compress: should it compress .nii filde at the end? 1 = yes, 0 = no.
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
+%           - cell array: If provided, the second argument will be used to select 
+%           specific conditions from the event files.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
 %
-% Author: Ortiz-Tudela (Goethe Univerity)
+% Author: Ortiz-Tudela (Goethe University)
 % Created: 09.01.2021
-% Last update: 12-01.2021
+% Last update: 12.01.2021
 
-function univariate_01_glm(project_folder, which_sub, task_name, compress,varargin)
+function univariate_02_glm(project_folder, which_sub, task_name, compress, varargin)
 
 % Session label
 if ~isempty(varargin)
@@ -50,7 +67,7 @@ matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 72; % n slices
 matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 36; % reference slice for slicetime correction
 
 %% Loop through runs
-for c_run=1:4%n_runs
+for c_run=1:n_runs
     
     % These are all the fields that SPM needs for a given run. Nothing
     % needs to be changed here.
@@ -63,8 +80,7 @@ for c_run=1:4%n_runs
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi = {[sufs.univ, ev_files{c_run}]};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).regress = struct('name', {}, 'val', {});
-    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {[sufs.func,conf_files{c_run}]};
-%     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {['']};
+    matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).multi_reg = {[sufs.func,conf_files{c_run}]}; % If no confound, {['']};
     matlabbatch{1}.spm.stats.fmri_spec.sess(c_run).hpf = 128;
     
 end

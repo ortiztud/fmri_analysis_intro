@@ -1,16 +1,33 @@
-% This script takes in event information from json files in a BIDS
-% dataset and creates conditions files in SPM format. Each event in the
-% json file will be treated as a condition.
+% univariate_00_create_cond_files(project_folder, which_sub, task_name, varargin)
+% This function reads in event information from .json files in a BIDS
+% dataset and creates conditions files in SPM format. The script will
+% assume that all your files follow BIDS convention. To include changes in
+% the way paths are hanldled, see getdirs.m.
+%
+% Usage: 
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - task_name: task label for which condition files will get generated.
+%    NOTE that this label *must* be identical to the one used for naming
+%    the files.
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
+%           - cell array: If provided, the second argument will be used to select 
+%           specific conditions from the event files.
+%
+% Each event in the json file will be treated as a condition.
 % CAUTION: This might not always be what the GLM requires since you might
 % want to collapse several events into single regressors.
-% Also, if you want to specify particular events (without collapsing) you
-% can pass a cell array with the event names after the session label.
+% Also, if you want to select specific events (without collapsing) you
+% can pass a cell array with the event names as the second option argument.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
 %
-% Author: Ortiz-Tudela (Goethe Univerity)
+% Author: Ortiz-Tudela (Goethe University)
 % Created: 09.01.2021
+% Last update: 14.04.2021
 
 function univariate_00_create_cond_files(project_folder, which_sub, task_name, varargin)
 

@@ -1,11 +1,25 @@
-% This script takes in confounds information from json files in a BIDS
-% dataset and creates confounds files in txt to be read by SPM.
+% univariate_01_create_confounds_files(project_folder, which_sub, task_name, varargin)
+% This function reads in confounds information from json files in a BIDS
+% dataset and creates confounds files in .txt to be read by SPM. The script will
+% assume that all your files follow BIDS convention. To include changes in
+% the way paths are hanldled, see getdirs.m.
+%
+% Usage: 
+%    - project_folder: path to root folder of the project
+%    - which_sub: subject id
+%    - task_name: task label for which condition files will get generated.
+%    NOTE that this label *must* be identical to the one used for naming
+%    the files.
+%    - varargin: optional arguments.
+%           - string: If provided, the first argument will be used as session label
+%           to navigate BIDS folders.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
 % the Goethe University.
 %
-% Author: Ortiz-Tudela (Goethe Univerity)
+% Author: Ortiz-Tudela (Goethe University)
 % Created: 17.03.2021
+% Last update: 14.04.2021
 
 function univariate_01_create_confounds_files(project_folder, which_sub, task_name, varargin)
 

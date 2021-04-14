@@ -38,3 +38,12 @@ If you need help downloading these packages, see [here](https://github.com/ortiz
 All the data that we will use in this workshop can be downloaded from the link below. The download will be available until 30.04.21, if you need access after that date, write to ortiztudela@psych.uni-frankfurt.de
 
 https://hessenbox-a10.rz.uni-frankfurt.de/getlink/fiQwmjTQaXvs2a7eHFexJS1J/
+
+- Content-specific dataset
+
+Task details and stimuli can be found at: http://vpnl.stanford.edu/fLoc/
+
+- Process-specific dataset
+
+Data at: https://openneuro.org/datasets/ds000164/versions/00001
+Publication at: https://pubmed.ncbi.nlm.nih.gov/25143543/

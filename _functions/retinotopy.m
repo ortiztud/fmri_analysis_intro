@@ -26,7 +26,7 @@ else
 end
 
 % Get folder structure
-[sufs, sub_code]=getdirs(project_folder, which_sub, ses_label);
+[sufs, sub_code]=getdirs_spatial(project_folder, which_sub, ses_label);
 
 % Echo
 fprintf('Starting participant %d',which_sub)

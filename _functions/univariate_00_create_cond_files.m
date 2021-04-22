@@ -42,12 +42,23 @@ else
 end
 
 % Get folder structure
-sufs=getdirs(project_folder, which_sub, ses_label);
-
+if contains(project_folder,'process-specific')
+    sufs = getdirs_process(project_folder, which_sub, ses_label);
+elseif contains(project_folder,'spatial-mapping')
+    sufs = getdirs_spatial(project_folder, which_sub, ses_label);
+else 
+    error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
+end
+    
 % Get how many runs are available
-temp=dir([sufs.events, '/sub*', task_name, '*events.tsv']);
+event_files_folder = [sufs.events, '/sub*', task_name, '*events.tsv'];
+sprintf('Looking for event files at %s',sufs.events)
+temp=dir(event_files_folder);
 for i=1:length(temp)
     ev_files{i}=temp(i).name;
+end
+if isempty(temp)
+    error('No event files found in the searched folder')
 end
 n_runs=size(ev_files,2);
 

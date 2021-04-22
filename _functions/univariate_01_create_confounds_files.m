@@ -31,12 +31,23 @@ else
 end
 
 % Get folder structure
-sufs=getdirs(project_folder, which_sub, ses_label);
+if contains(project_folder,'process-specific')
+    sufs = getdirs_process(project_folder, which_sub, ses_label);
+elseif contains(project_folder,'spatial-mapping')
+    sufs = getdirs_spatial(project_folder, which_sub, ses_label);
+else 
+    error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
+end
 
 % Get how many runs are available
-temp=dir([sufs.func, 'sub*', task_name, '*timeseries.tsv']);
+timeseries_folder = [sufs.func, 'sub*', task_name, '*timeseries.tsv'];
+sprintf('Looking for timeseries files at %s', sufs.func)
+temp=dir(timeseries_folder);
 if isempty(temp) % This is here to handle different between fmriprep's versions
     temp=dir([sufs.func, 'sub*', task_name, '*regressors.tsv']);
+end
+if isempty(temp)
+    error('No timeseries files found in the searched folder')
 end
 for i=1:length(temp)
     conf_files{i}=temp(i).name;
@@ -48,8 +59,7 @@ for c_run = 1:n_runs
     
     % Use R function to generate the confound files
     run_conf_file=[sufs.func, conf_files{c_run}];
-    cmd = sprintf('Rscript %sget-moco-info.R %s', sufs.functions, run_conf_file);
-    system(cmd);
+    get_moco_info(run_conf_file);
    
 end
 

@@ -38,7 +38,13 @@ else
 end
 
 % Get folder structure
-[sufs, sub_code]=getdirs(project_folder, which_sub, ses_label);
+if contains(project_folder,'process-specific')
+    [sufs, sub_code] = getdirs_process(project_folder, which_sub, ses_label);
+elseif contains(project_folder,'spatial-mapping')
+    [sufs,sub_code] = getdirs_spatial(project_folder, which_sub, ses_label);
+else 
+    error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
+end
 
 % Echo
 fprintf('Starting participant %d',which_sub)
@@ -48,8 +54,14 @@ out_folder=[sufs.univ, '/betas'];
 if ~exist(out_folder);mkdir(out_folder);end
 
 % Get how many runs are available
-temp=dir([sufs.univ, '/sub*', task_name, '*events.mat']);
-temp2=dir([sufs.func, 'sub*', task_name, '*_SPM.txt']);
+event_files_folder = [sufs.univ, '/sub*', task_name, '*events.mat'];
+sprintf('Looking for condition files at %s', event_files_folder)
+temp=dir(event_files_folder);
+if isempty(temp); error('No condition files found in the searched folder');end
+timeseries_folder = [sufs.func, 'sub*', task_name, '*_SPM.txt'];
+sprintf('Looking for timeseries files at %s', timeseries_folder)
+temp2=dir(timeseries_folder);
+if isempty(temp2); error('No confound files found in the searched folder');end
 for i=1:length(temp)
     ev_files{i}=temp(i).name;
     conf_files{i}=temp2(i).name;
@@ -57,6 +69,7 @@ end
 n_runs=size(ev_files,2);
 
 % Get filenames
+'Looking for smoothed files'
 func_files=smooth_bids(sufs.func, task_name);
 
 %% Fun beggins

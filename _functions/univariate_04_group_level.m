@@ -7,10 +7,10 @@
 %    - which_sub: subject id
 %    - contrast_number: numeric label assigned by SPM when running the
 %    contrast. This number reflects the order on which the contrasts were
-%    run and accumulates even if the same contrasts are run multiple times. 
+%    run and accumulates even if the same contrasts are run multiple times.
 %    This is a bit annoying a very error prone, so make sure the number
 %    specified here matches exactly the contrast that you want to look at.
-%    - contrast_names: cell array containing the names of the contrasts to 
+%    - contrast_names: cell array containing the names of the contrasts to
 %    be run.
 %    - varargin: optional arguments.
 %           - string: If provided, the first argument will be used as session label
@@ -37,10 +37,16 @@ output_folder=[project_folder, '/outputs/group_level/univ/', contrast_name];
 
 %% start looping over subjects
 c=1;
-for cSub = which_sub
+for cSub = 1:numel(which_sub)
     
     % Get folder structure
-    sufs=getdirs(project_folder, cSub, ses_label);
+    if contains(project_folder,'process-specific')
+        sufs = getdirs_process(project_folder, which_sub(cSub), ses_label);
+    elseif contains(project_folder,'spatial-mapping')
+        sufs = getdirs_spatial(project_folder, which_sub(cSub), ses_label);
+    else
+        error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
+    end
     
     % Get contrast 1st level files
     file_names{c,1}=[sufs.outputs, 'univ/betas/con_000', num2str(contrast_number),'.nii'];

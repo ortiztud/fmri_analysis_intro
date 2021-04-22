@@ -50,7 +50,7 @@ end
 %% Third step. Run GLM
 % Now we are ready to run our GLM with SPM. We have created a short
 % function with the scripting from SPM.
-% univariate_01_glm(project_folder, subject, task, compresion?, [session])
+% univariate_02_glm(project_folder, subject, task, compresion?, [session])
 
 
 % Make sure you have checked the outputs and that you understand what they

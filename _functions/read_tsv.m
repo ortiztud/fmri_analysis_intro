@@ -8,7 +8,7 @@ function table=read_tsv(filename)
 % file so that there is no trace of its use in the data folder.
 
 % Copy the .tsv file into a .csv file
-if IsWin
+if ispc
     cmd = sprintf('copy %s %s', filename, 'temp.csv');
 else
     cmd = sprintf('cp %s %s', filename, 'temp.csv');
@@ -19,7 +19,7 @@ system(cmd);
 table=readtable('temp.csv');
 
 % Delete the .csv file
-if IsWin
+if ispc
     cmd = 'del temp.csv';
 else
     cmd = 'rm temp.csv';

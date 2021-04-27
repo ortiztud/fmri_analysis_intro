@@ -57,9 +57,9 @@ n_runs=size(conf_files,2);
 % Start looping over runs
 for c_run = 1:n_runs
     
-    % Use R function to generate the confound files
-    run_conf_file=[sufs.func, conf_files{c_run}];
-    get_moco_info(run_conf_file);
+    % Use get_moco_info function to generate the confound files
+    here = cd;there = sufs.func;out_dir=sufs.univ;
+    get_moco_info(here, there, out_dir, conf_files{c_run});
    
 end
 

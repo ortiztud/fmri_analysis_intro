@@ -1,12 +1,18 @@
 % # Read fMRIPrep's confounds output and create a text file compatible with SPM that contains 
 % # only MOCO, global signals and linear trends.
 
-function get_moco_info(func_file)
+function get_moco_info(here, there, out_dir, func_file)
 
 'Extracting confounds'
+% Go to the folder
+cd(there)
 
 % # Read in confounds files
-system(sprintf('cp %s %scsv', func_file, func_file(1:end-3)));
+if ispc
+    system(sprintf('copy %s %scsv', func_file, func_file(1:end-3)));
+else
+    system(sprintf('cp %s %scsv', func_file, func_file(1:end-3)));
+end
 conf_data = readtable([func_file(1:end-3),'csv']);
 
 % # Select the columns with moco info
@@ -32,5 +38,9 @@ else
 end
 output_name = [output_name{1}, 'SPM.txt'];
 
+% Go to output dir
+cd(out_dir)
 writematrix(output, output_name)
-   
+
+% Go back to where we started
+cd(here)

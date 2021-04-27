@@ -27,7 +27,10 @@
 %
 % Author: Ortiz-Tudela (Goethe University)
 % Created: 09.01.2021
-% Last update: 14.04.2021
+% Last update: 27.04.2021
+% Fix on the 27th. Due to the inability of system('cp ...') to read files
+% from a distance in some computers, now we go to the folder where event
+% files are, read them in, and come back to where we started.
 
 function univariate_00_create_cond_files(project_folder, which_sub, task_name, varargin)
 
@@ -65,8 +68,11 @@ n_runs=size(ev_files,2);
 % Start looping over runs
 for cRun = 1:n_runs
     
-    % Load event files
-    ev = read_tsv([sufs.events, ev_files{cRun}]);
+    % Load event files. Go to the folder, read the file and come back.
+    here = cd;
+    cd(sufs.events)
+    ev = read_tsv(ev_files{cRun});
+    cd(here)
     
     % Get available conditions
     try

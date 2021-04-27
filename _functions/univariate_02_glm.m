@@ -1,11 +1,15 @@
 % univariate_02_glm(project_folder, which_sub, task_name, compress,varargin)
 % This function reads in the condition files in SPM format (see
-% univariate_00_create_condFile.m), confund files in .txt format (see 
-% univariate_01_create_confounds_files.m), applies spatial smoothing, 
+% univariate_00_create_condFile.m), confund files in .txt format (see
+% univariate_01_create_confounds_files.m), applies spatial smoothing,
 % creates a model with task and nuisance regressors, saves it in a SPM.mat,
 % and computes the GLM. In SPM's terms: it specifies the model and estimates it.
+% 
+% Please be aware that this script uses a GM binary mask to only compute 
+% the GLM on GM voxels. If you do not want that, you can set to blank the
+% content of line 112 (matlabbatch{1}.spm.stats.fmri_spec.mask).%
 %
-% The script will assume that all your files follow BIDS convention. To 
+% The script will assume that all your files follow BIDS convention. To
 % include changes in the way paths are hanldled, see getdirs.m.
 %
 % Usage:
@@ -18,7 +22,7 @@
 %    - varargin: optional arguments.
 %           - string: If provided, the first argument will be used as session label
 %           to navigate BIDS folders.
-%           - cell array: If provided, the second argument will be used to select 
+%           - cell array: If provided, the second argument will be used to select
 %           specific conditions from the event files.
 %
 % This script has been created for the fMRI analysis seminar on PsyMSc4 at
@@ -42,7 +46,7 @@ if contains(project_folder,'process-specific')
     [sufs, sub_code] = getdirs_process(project_folder, which_sub, ses_label);
 elseif contains(project_folder,'spatial-mapping')
     [sufs,sub_code] = getdirs_spatial(project_folder, which_sub, ses_label);
-else 
+else
     error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
 end
 
@@ -58,7 +62,7 @@ event_files_folder = [sufs.univ, '/sub*', task_name, '*events.mat'];
 sprintf('Looking for condition files at %s', event_files_folder)
 temp=dir(event_files_folder);
 if isempty(temp); error('No condition files found in the searched folder');end
-timeseries_folder = [sufs.func, 'sub*', task_name, '*_SPM.txt'];
+timeseries_folder = [sufs.univ, 'sub*', task_name, '*_SPM.txt'];
 sprintf('Looking for timeseries files at %s', timeseries_folder)
 temp2=dir(timeseries_folder);
 if isempty(temp2); error('No confound files found in the searched folder');end
@@ -104,7 +108,7 @@ matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
 matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
 matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
 matlabbatch{1}.spm.stats.fmri_spec.mthresh = 0.8;
-matlabbatch{1}.spm.stats.fmri_spec.mask = {[project_folder, '/tpl-MNI152NLin2009cAsym_label-GM_bin.nii']};
+matlabbatch{1}.spm.stats.fmri_spec.mask = {[project_folder, '/tpl-MNI152NLin2009cAsym_label-GM_bin.nii']}; % If no GM mask, {['']};
 matlabbatch{1}.spm.stats.fmri_spec.cvi = 'AR(1)';
 
 %% Model estimation

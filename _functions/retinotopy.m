@@ -29,7 +29,7 @@ end
 [sufs, sub_code]=getdirs_spatial(project_folder, which_sub, ses_label);
 
 % Echo
-fprintf('Starting participant %d',which_sub)
+fprintf('Starting participant %d...',which_sub)
 
 % Which betas code for the eccentricity conditions
 ecc_reg=[1:6;18:23;35:40];
@@ -58,7 +58,13 @@ av_betas = mean(all_betas,5);
 [values, codes]=max(av_betas,[],4);
 
 % Create a copy to be used as an envelope
-cmd = sprintf('cp %s/betas/beta_0001.nii %sretinotopy.nii', sufs.univ,sufs.univ);
+here = cd;
+cd([sufs.univ, 'betas/'])
+if ispc
+    cmd = sprintf('copy beta_0001.nii ../retinotopy.nii');
+else
+    cmd = sprintf('cp beta_0001.nii ../retinotopy.nii');
+end
 system(cmd);
 
 % Read in the envelope
@@ -67,4 +73,7 @@ env = spm_vol(sprintf('%sretinotopy.nii', sufs.univ));
 % Write volume
 spm_write_vol(env,codes);
 
+% Echo
+fprintf('\n\nRetinotopy completed. \n\nOutputs saved to %ssretinotopy.nii', sufs.univ)
+cd(here)
 end

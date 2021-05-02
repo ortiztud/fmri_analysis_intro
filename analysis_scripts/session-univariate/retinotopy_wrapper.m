@@ -2,16 +2,12 @@
 % This is a template wrapper script for running functonal retinotopy.
 %
 % To run this script you need the beta maps generated for each condition in 
-% either an eccentricity and/or a polar angle mapping run. 
-%       - Contrasts names: Cell array containing the names that we want to 
-%       give our constrasts. Make sure you use meaningfull names. There are
-%       no restriction to the characters you can use.
-%       - Constrats weights: Cell array containing the weight vectores for 
-%       that correspond to the contrasts names. IMPORTANT! The order must
-%       be preserved across variables.
+% either an eccentricity and/or a polar angle mapping run. You do not need to specify
+% much below. Just point at the root folder of the project and select for which
+% subject you want to run the analysis. IMPORTANT! Do you need a session label?
 
 %% Define paths
-project_folder='/home/javier/pepe/2_Analysis_Folder/fMRI_analysis_seminar/spatial-mapping';
+project_folder='/dataset/path/in/your/computer/';
 
 %% Which subjects?
 subjects = [];

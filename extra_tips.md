@@ -13,3 +13,8 @@ For every datapoint (every volume in the functional files) we have a value for e
 
 ## On SPM's beta maps.
 The number of betas (or beta files or beta maps) should match the number of regressors. Note that you will get a beta estimate also for the confound regressors even if you would not typically care too much about them. SPM (as most packages running GLM for fMRI) do not include meaningfull labels in the beta file names. The name/order of the beta files will match the order with which the regressors were put into the GLM. In the case of SPM, task regressors go first in alphabetical order of the “name” of the regressor in the condition files; then confound regressors go in the same order as they are in the confound file.
+
+Finally, note that your model will also include a "constant" regressor for each run in your task (to account for differences in signal across runs). As a consequence, you will also have one extra beta for each one of your runs.
+
+To sum up, the number of beta files that you get out of SPM's GLM should add up to:
+(n_task_regressors + n_confound_regressors + 1) * n_runs

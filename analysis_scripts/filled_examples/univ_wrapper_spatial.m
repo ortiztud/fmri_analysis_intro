@@ -1,7 +1,7 @@
 % Filled in example for fmri_analysis_intro. Process-specific dataset
 
 %% Define all the paths in your computer
-project_folder='/Users/javierortiz/PowerFolders/data_fmri-analysis_intro/spatial-mapping';
+project_folder='/home/javier/pepe/2_Analysis_Folder/fMRI_analysis_seminar/spatial-mapping';
 
 %% Which subjects?
 subjects = [1];

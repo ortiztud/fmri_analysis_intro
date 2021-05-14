@@ -20,8 +20,8 @@ subjects = [];
 
 %% Run contrast.
 % First, define the contrasts of interest.
-contrast_names={'';''};
-contrast_weights={[];[];};
+contrast_names={'gjdfyhdh';'adad'};
+contrast_weights={[];[]};
 
 % Now we can call the following function.
 % univariate_02_contrast(project_folder, subject, contrast_names, contrast_weights)

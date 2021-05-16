@@ -20,8 +20,8 @@ subjects = [];
 
 %% Run contrast.
 % First, define the contrasts of interest.
-contrast_names={'';''};
-contrast_weights={[];[];};
+contrast_names={'gjdfyhdh';'adad'};
+contrast_weights={[];[]};
 
 % Now we can call the following function.
 % univariate_02_contrast(project_folder, subject, contrast_names, contrast_weights)
@@ -34,7 +34,7 @@ contrast_weights={[];[];};
 %% Run group analysis for each contrast
 % Once you already have computed contrast maps, we are ready to run
 % group-level analysis. We can use the following function
-% univariate_03_group_leveI(project_folder, subjects, contrast_number, contrast_name)
+% univariate_03_group_level(project_folder, subjects, contrast_number, contrast_name)
 % IMPORTANT! Pay attention to the contrast number. It should math the ORDER
 % in which the contrasts were computed in the previous step.
 

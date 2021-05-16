@@ -7,7 +7,11 @@
 
 %% Local paths
 % Here you need to specify where you have put the SPM folder.
+<<<<<<< HEAD
 spm_folder = '/home/francesco/Downloads/spm12';
+=======
+spm_folder = '/home/javier/pepe/2_Analysis_Folder/_common_software/spm12';
+>>>>>>> 3ef2db3d96d39dad1d785f4712e263e231419474
 
 %% Add paths (no need to change anything from here on)
 % Seminar functions

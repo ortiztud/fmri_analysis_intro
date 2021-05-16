@@ -7,7 +7,7 @@
 
 %% Local paths
 % Here you need to specify where you have put the SPM folder.
-spm_folder = '/path/to/spm/in/your/folder';
+spm_folder = '/home/francesco/Downloads/spm12';
 
 %% Add paths (no need to change anything from here on)
 % Seminar functions

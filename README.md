@@ -35,7 +35,7 @@ This is a list of the software that we will use:
 If you need help downloading these packages, see [here](https://github.com/ortiztud/fmri_analysis_intro/blob/main/slides/slides_software-installation.ppt).
 
 ### Data
-All the data that we will use in this workshop can be downloaded from the link below. The download will be available until 30.04.21, if you need access after that date, write to ortiztudela@psych.uni-frankfurt.de
+All the data that we will use in this workshop can be downloaded from the link below. The download will be available until 30.04.24, if you need access after that date, write to ortiztudela@psych.uni-frankfurt.de
 
 https://hessenbox-a10.rz.uni-frankfurt.de/getlink/fiQwmjTQaXvs2a7eHFexJS1J/
 

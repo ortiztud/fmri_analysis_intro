@@ -1,10 +1,10 @@
 % Filled in example for fmri_analysis_intro. Process-specific dataset
 
 %% Define all the paths in your computer
-project_folder='/media/javier/Data/fmri-intro_test/process-specific';
+project_folder='/Users/javierortiz/PowerFolders/data_fmri-analysis_intro/process-specific';
 
 %% Which subjects?
-subjects = [1:7];
+subjects = [1,2];
 
 %% Now we need to create the condition files. For that we can use the function called
 % univariate_00_create_cond_files(project_folder, subject, task)
@@ -24,10 +24,10 @@ for c_sub=subjects
 end
 
 % Run contrast
-contrast_names={'hsddfjahajl haj';'neu-inc';'inc-all';'all-inc';'con-inc';'con-neu'};
-contrast_weights={[0 1 -1];[0 -1 1];[-1 2 -1];[1 -2 1];[1 -1 0];[1 0 -1]};
+contrast_names={'neu-inc';'inc-all';'all-inc';'con-inc';'con-neu'};
+contrast_weights={[0 -1 1];[-1 2 -1];[1 -2 1];[1 -1 0];[1 0 -1]};
 for c_sub=subjects
-    univariate_03_contrast(project_folder, c_sub, contrast_names, contrast_weights) % Inc > Neutr
+    univariate_03_contrast(project_folder, c_sub, contrast_names, contrast_weights)
 end
 
 % Run group analysis for each contrast

@@ -49,6 +49,8 @@ if contains(project_folder,'process-specific')
     sufs = getdirs_process(project_folder, which_sub, ses_label);
 elseif contains(project_folder,'spatial-mapping')
     sufs = getdirs_spatial(project_folder, which_sub, ses_label);
+elseif contains(project_folder,'content')
+    sufs = getdirs_content(project_folder, which_sub, ses_label);
 else 
     error('I do not recognize the provided folder. Please, check that it is correct. \n\n. Provided path: %', project_folder)
 end

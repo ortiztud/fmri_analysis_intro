@@ -4,7 +4,7 @@
 project_folder='/Users/javierortiz/PowerFolders/data_fmri-analysis_intro/process-specific';
 
 %% Which subjects?
-subjects = [1,2];
+subjects = [1:20];
 
 %% Now we need to create the condition files. For that we can use the function called
 % univariate_00_create_cond_files(project_folder, subject, task)

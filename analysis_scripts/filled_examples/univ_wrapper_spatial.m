@@ -1,10 +1,10 @@
 % Filled in example for fmri_analysis_intro. Process-specific dataset
 
 %% Define all the paths in your computer
-project_folder='/home/javier/pepe/2_Analysis_Folder/fMRI_analysis_seminar/spatial-mapping';
+project_folder='/Users/javierortiz/PowerFolders/data_fmri-analysis_intro/spatial-mapping';
 
 %% Which subjects?
-subjects = [1];
+subjects = [3];
 
 %% Now we need to create the condition files. For that we can use the function called
 % univariate_00_create_cond_files(project_folder, subject, task)
@@ -24,4 +24,6 @@ for c_sub=subjects
 end
 
 % Run retinotopy
-retinotopy(project_folder, 1, 'ring3T')
+for c_sub=subjects
+    retinotopy(project_folder, 1, 'ring3T')
+end

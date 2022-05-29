@@ -1,7 +1,7 @@
 % Filled in example for fmri_analysis_intro. Content-specific dataset
 
 %% Define all the paths in your computer
-project_folder='/home/ortiz/DATA/2_Analysis_Folder/fMRI_analysis_seminar/content-specific';
+project_folder='/Users/javierortiz/PowerFolders/data_fmri-analysis_intro/content-specific';
 
 %% Which subjects?
 subjects = [6,7,8];

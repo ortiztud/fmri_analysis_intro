@@ -39,9 +39,10 @@ All the data that we will use in this workshop can be downloaded from the link b
 
 https://hessenbox-a10.rz.uni-frankfurt.de/getlink/fiQwmjTQaXvs2a7eHFexJS1J/
 
-- Content-specific dataset
+- Content-3t dataset
 
-Task details and stimuli can be found at: http://vpnl.stanford.edu/fLoc/
+Data at: doi:10.18112/openneuro.ds001497.v1.0.2
+Original publication at: https://www.jneurosci.org/content/28/35/8765.short
 
 - Process-specific dataset
 
